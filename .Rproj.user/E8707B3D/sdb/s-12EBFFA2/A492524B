@@ -1,0 +1,17 @@
+{
+    "contents" : "---\ntitle       : Data Products Assignment 1\nsubtitle    : \nauthor      : Shay O\njob         : \nframework   : io2012        # {io2012, html5slides, shower, dzslides, ...}\nhighlighter : highlight.js  # {highlight.js, prettify, highlight}\nhitheme     : tomorrow      # \nwidgets     : []            # {mathjax, quiz, bootstrap}\nmode        : selfcontained # {standalone, draft}\nknit        : slidify::knit2slides\n---\n\n## Read-And-Delete\n\n1. Edit YAML front matter\n2. Write using R Markdown\n3. Use an empty line followed by three dashes to separate slides!\n\n--- .class #id \n\n## Slide 2\nSlide 2?\n---\n## Slide 3\n\n---\n## Slide 4\n\n---\n## Slide 5 - Hello\n\n\n\n\n",
+    "created" : 1448150924123.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "262030789",
+    "id" : "A492524B",
+    "lastKnownWriteTime" : 1448173678,
+    "path" : "C:/Users/soreilly/DataProductsProject/index.Rmd",
+    "project_path" : "index.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
