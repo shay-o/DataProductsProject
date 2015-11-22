@@ -1,12 +1,12 @@
 {
     "contents" : "require(devtools)\n\ninstall_github(\"ramnathv/slidify\")\ninstall_github(\"ramnathv/slidifyLibraries\")\n\nlibrary(slidify)\n\nslidify(\"index.Rmd\")\n\npublish(user = \"shay-o\", repo = \"DataProductsProject\")\n",
     "created" : 1448151431495.000,
-    "dirty" : true,
+    "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "875721475",
     "id" : "10DC2116",
-    "lastKnownWriteTime" : 1448147738,
+    "lastKnownWriteTime" : 1448173683,
     "path" : "C:/Users/soreilly/DataProductsProject/Slidify.R",
     "project_path" : "Slidify.R",
     "properties" : {

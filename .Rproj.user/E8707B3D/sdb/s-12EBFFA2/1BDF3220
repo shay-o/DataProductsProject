@@ -1,12 +1,12 @@
 {
     "contents" : "#load(\"Medicare_Data.Rda\")\n\n#Next create a simple aggregated table of Charges and payments by state. \n#Allow user to choose state and get those metrics.\n\nlibrary(plyr)\nagg <- ddply(data, c(\"Provider.State\"), summarize, \n        Payments = sum(Average.Total.Payments),              \n        CoveredCharges = sum(Average.Covered.Charges),\n        PercentPayments = Payments/CoveredCharges\n)\n\n###\nif (!require(\"devtools\"))\n  install.packages(\"devtools\")\ndevtools::install_github(\"rstudio/rsconnect\")\n\n\n\n",
     "created" : 1448151344593.000,
-    "dirty" : true,
+    "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "1856092681",
     "id" : "1BDF3220",
-    "lastKnownWriteTime" : 1448147738,
+    "lastKnownWriteTime" : 1448173681,
     "path" : "C:/Users/soreilly/DataProductsProject/Worksheet.R",
     "project_path" : "Worksheet.R",
     "properties" : {
