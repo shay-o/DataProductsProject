@@ -1,7 +1,10 @@
 require(devtools)
-install_github("slidify", "ramnathv")
-install_github("ramnathv/slidify")
 
-install_github("ramanthv/slidifyLibraries")
+install_github("ramnathv/slidify")
+install_github("ramnathv/slidifyLibraries")
 
 library(slidify)
+
+slidify("index.Rmd")
+
+publish(user = "shay-o", repo = "DataProductsProject")

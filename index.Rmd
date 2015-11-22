@@ -20,7 +20,7 @@ knit        : slidify::knit2slides
 --- .class #id 
 
 ## Slide 2
-
+Slide 2?
 ---
 ## Slide 3
 
