@@ -15,12 +15,12 @@ shinyServer(function(input, output) {
     
     # Would like to select columns later
     #x <- agg[, input$Metric, drop = FALSE]
-    x <- agg[,2]
+    x <- agg[,input$Metric]
     # x = bins
     bins <- seq(min(x), max(x), length.out = input$bins + 1)
 
     # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    hist(x, breaks = bins, col = 'darkgray', border = 'white', main  = paste("Histogram of ", input$Metric," at state level"))
 
   })
 

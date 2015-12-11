@@ -10,7 +10,7 @@ library(shiny)
 shinyUI(fluidPage(
 
   # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("State level aggregation of health payments."), 
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
@@ -22,12 +22,17 @@ shinyUI(fluidPage(
                   value = 30),
     
       
-      selectInput("Metric","Choose Metric",c("Input$Payments","CoveredCharges","PercentPayments"))
+      selectInput("Metric","Choose Metric",c("Payments","CoveredCharges","PercentPayments"))
       ),
 
     # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("distPlot")
+      
+      plotOutput("distPlot"),
+      h5("Data taken from courtesy of John Muschellis github repo (https://github.com/muschellij2/Shiny_Health_Data) via the Centers for Medicaid and Medicare."),
+      h5("(https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html)."),
+      h5("Note application is unrelated to shiny app at the repo above.")
+                 
     )
   )
 ))
