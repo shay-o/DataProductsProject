@@ -13,7 +13,7 @@ knit        : slidify::knit2slides
 
 ## Summary
 
-This application provides histogram of Medicaid health care payment data aggregated to the state level. 
+This application provides histogram of Medicaid health care payment data aggregated to the state level. User can choose one of three metrics to view distribution of values at the state level.
 
 Data is set originally from CMS.gov. I gathered it from https://github.com/muschellij2/Shiny_Health_Data which houses an unrelated Shiny app using this data. This application is unrelated to that application. I would jsut like to acknowledge muschellij2 had collected this data original.
 
@@ -32,9 +32,6 @@ agg <- ddply(data, c("Provider.State"), summarize,
         CoveredCharges = sum(Average.Covered.Charges),
         PercentPayments = Payments/CoveredCharges)
 ```
-
----
-## Slide 3
 
 ---
 ## Slide 4

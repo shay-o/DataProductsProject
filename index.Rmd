@@ -32,12 +32,4 @@ agg <- ddply(data, c("Provider.State"), summarize,
         PercentPayments = Payments/CoveredCharges)
 ```
 
----
-## Slide 4
-
----
-## Slide 5 - Hello
-
-
-
 
