@@ -43,14 +43,14 @@
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Read-And-Delete</h2>
+    <h2>Summary</h2>
   </hgroup>
   <article data-timings="">
-    <ol>
-<li>Edit YAML front matter</li>
-<li>Write using R Markdown</li>
-<li>Use an empty line followed by three dashes to separate slides!</li>
-</ol>
+    <p>This application provides histogram of Medicaid health care payment data aggregated to the state level. User can choose one of three metrics to view distribution of values at the state level.</p>
+
+<p>Data is set originally from CMS.gov. I gathered it from <a href="https://github.com/muschellij2/Shiny_Health_Data">https://github.com/muschellij2/Shiny_Health_Data</a> which houses an unrelated Shiny app using this data. This application is unrelated to that application. I would jsut like to acknowledge muschellij2 had collected this data original.</p>
+
+<p><a href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html">https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html</a></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -58,12 +58,17 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Slide 2</h2>
+    <h2>Methodology</h2>
   </hgroup>
   <article data-timings="">
-    <h2>Slide 2?</h2>
+    <p>Data is aggregated as follows:</p>
 
-<h2>Slide 3</h2>
+<pre><code class="r">library(plyr)
+agg &lt;- ddply(data, c(&quot;Provider.State&quot;), summarize, 
+        Payments = sum(Average.Total.Payments),              
+        CoveredCharges = sum(Average.Covered.Charges),
+        PercentPayments = Payments/CoveredCharges)
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -95,13 +100,13 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Read-And-Delete'>
+        data-slide=1 title='Summary'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Slide 2'>
+        data-slide=2 title='Methodology'>
          2
       </a>
     </li>

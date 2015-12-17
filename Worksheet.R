@@ -4,7 +4,8 @@
 #Allow user to choose state and get those metrics.
 
 library(plyr)
-agg <- ddply(data, c("Provider.State"), summarize, 
+grouping <- group_by(data,Path.Size)
+agg <- aggregate(data, c("Provider.State"), summarize, 
         Payments = sum(Average.Total.Payments),              
         CoveredCharges = sum(Average.Covered.Charges),
         PercentPayments = Payments/CoveredCharges
@@ -15,5 +16,21 @@ if (!require("devtools"))
   install.packages("devtools")
 devtools::install_github("rstudio/rsconnect")
 
+#--- Slidify commands
+require(devtools)
 
+install_github("ramnathv/slidify")
+install_github("ramnathv/slidifyLibraries")
+
+library(slidify)
+
+slidify("index.Rmd")
+
+publish(user = "shay-o", repo = "DataProductsProject")
+
+#--- 
+
+#NEXT Look at difference in charges for different procedures DRGs.
+# Get source data and look at disparity in covered charges for the same DRG.
+#https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Inpatient2013.html
 
