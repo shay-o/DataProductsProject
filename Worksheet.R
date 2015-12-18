@@ -32,7 +32,7 @@ library(slidify)
 slidify("index.Rmd")
 
 publish(user = "shay-o", repo = "DataProductsProject")
-publish(user = "shay-o", repo = "REPO", host = 'github')
+
 
 #NEXT Look at difference in charges for different procedures DRGs.
 # Get source data and look at disparity in covered charges for the same DRG.
