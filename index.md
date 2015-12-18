@@ -19,6 +19,8 @@ Data is set originally from CMS.gov. I gathered it from https://github.com/musch
 
 https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html
 
+Changed
+
 --- .class #id 
 
 ## Methodology
@@ -32,13 +34,5 @@ agg <- ddply(data, c("Provider.State"), summarize,
         CoveredCharges = sum(Average.Covered.Charges),
         PercentPayments = Payments/CoveredCharges)
 ```
-
----
-## Slide 4
-
----
-## Slide 5 - Hello
-
-
 
 
