@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Data Products Assignment 1</title>
+  <title>Data Data Products Course Project</title>
   <meta charset="utf-8">
-  <meta name="description" content="Data Products Assignment 1">
+  <meta name="description" content="Data Data Products Course Project">
   <meta name="author" content="Shay O">
   <meta name="generator" content="slidify" />
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,8 +32,8 @@
     <!-- LOGO SLIDE -->
         <slide class="title-slide segue nobackground">
   <hgroup class="auto-fadein">
-    <h1>Data Products Assignment 1</h1>
-    <h2></h2>
+    <h1>Data Data Products Course Project</h1>
+    <h2>Shiny Application and Reproducible Pitch</h2>
     <p>Shay O<br/></p>
   </hgroup>
   <article></article>  
@@ -48,11 +48,30 @@
   <article data-timings="">
     <p>This application provides histogram of Medicaid health care payment data aggregated to the state level. User can choose one of three metrics to view distribution of values at the state level.</p>
 
-<p>Data is set originally from CMS.gov. I gathered it from <a href="https://github.com/muschellij2/Shiny_Health_Data">https://github.com/muschellij2/Shiny_Health_Data</a> which houses an unrelated Shiny app using this data. This application is unrelated to that application. I would jsut like to acknowledge muschellij2 had collected this data original.</p>
+<p><a href="http://www.cms.gov/apps/ama/license.asp?file=http://download.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare_State_HCPCS_Aggregate_CY2013.zip">http://www.cms.gov/apps/ama/license.asp?file=http://download.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare_State_HCPCS_Aggregate_CY2013.zip</a></p>
 
-<p><a href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html">https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html</a></p>
+<p>This application shows a histogram and data table of state-level data points for the chosen metric (Amount Allowed, Amount Submitted, Amount Payed) for the chosen procedure. This is intended to be useful as an initial exploration of the variability of submitted claims and payments for same procedure.</p>
 
-<p>Changed23</p>
+<p>The data is healthcare provider data given to the Centers for Medicare and Medicaid Services (cms.gov). Data is from 2013.</p>
+
+<p>See this page for more information:<br>
+<a href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html">https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html</a></p>
+
+<pre><code class="r">library(dplyr)
+
+rawdata &lt;- read.csv(&quot;./Medicare-State-HCPCS-Aggregate-CY2013.csv&quot;)
+# data from http://www.cms.gov/apps/ama/license.asp?file=http://download.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare_State_HCPCS_Aggregate_CY2013.zip
+
+# remove columns
+data2 &lt;- rawdata[c(1:10,14,18)] # remove colums for min, max, std. Keep just row definition and averages.
+
+# change column formats
+data2$Average.Submitted.Charge.Amount &lt;- as.numeric(data2$Average.Submitted.Charge.Amount) 
+data2$Average.Medicare.Allowed.Amount &lt;- as.numeric(data2$Average.Medicare.Allowed.Amount)
+data2$Average.Medicare.Payment.Amount &lt;- as.numeric(data2$Average.Medicare.Payment.Amount)
+data2$NPPES.Provider.State.Description &lt;- as.character(data2$NPPES.Provider.State.Description)
+data2$HCPCS.Description &lt;- as.character(data2$HCPCS.Description)
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -63,14 +82,52 @@
     <h2>Methodology</h2>
   </hgroup>
   <article data-timings="">
-    <p>Data is aggregated as follows:</p>
+    <p>Raw data file is here:
+<a href="http://www.cms.gov/apps/ama/license.asp?file=http://download.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare_State_HCPCS_Aggregate_CY2013.zip">http://www.cms.gov/apps/ama/license.asp?file=http://download.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare_State_HCPCS_Aggregate_CY2013.zip</a></p>
 
-<pre><code class="r">library(plyr)
-agg &lt;- ddply(data, c(&quot;Provider.State&quot;), summarize, 
-        Payments = sum(Average.Total.Payments),              
-        CoveredCharges = sum(Average.Covered.Charges),
-        PercentPayments = Payments/CoveredCharges)
+<p>File was saved as a csv then loaded into R Studio. I removed columns and reformated some. </p>
+
+<p>Data is aggregated by state as follows:</p>
+
+<pre><code class="r">ByProviderStateCode &lt;- group_by(data2,NPPES.Provider.State.Description,HCPCS.Description)
+
+
+agg_ByProviderStateCode &lt;- summarize(ByProviderStateCode,
+                                     AmountAllowed = sum(Average.Medicare.Allowed.Amount),
+                                     AmountSubmitted = sum(Average.Submitted.Charge.Amount),
+                                    AmountPayed = sum(Average.Medicare.Payment.Amount)
+) 
+
+agg_ByProviderStateCode &lt;- agg_ByProviderStateCode[order(-agg_ByProviderStateCode$AmountSubmitted),]
+agg_ByProviderStateCode$HCPCS.Description[1]
 </code></pre>
+
+<pre><code>## [1] &quot;Treatment of broken ankle&quot;
+</code></pre>
+
+<pre><code class="r">temp &lt;- agg_ByProviderStateCode$AmountSubmitted[which(agg_ByProviderStateCode$HCPCS.Description==&#39;Treatment of broken ankle&#39;)]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p>The app is intended as an exploratory tool showing the range of data for different procedures. For example the most common procedure is &#39;Treatment of broken ankle&#39;. </p>
+
+<p>We can see there is a significant range in submitted requests. The average is 9.1996154 &times; 10<sup>5</sup> but the max is 1.908132 &times; 10<sup>6</sup> and the min is 1.14244 &times; 10<sup>5</sup>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">    hist(temp, col = &#39;darkgray&#39;, border = &#39;white&#39;, main  = paste(&quot;Histogram of submitted cost for &#39;Broken Ankle&#39; at state level.&quot;), xlab = &quot;Amount Submitted&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -90,6 +147,18 @@ agg &lt;- ddply(data, c(&quot;Provider.State&quot;), summarize,
       <a href="#" target="_self" rel='tooltip' 
         data-slide=2 title='Methodology'>
          2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='NA'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
       </a>
     </li>
   </ul>

@@ -1,27 +1,39 @@
-
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library(shiny)
 
 shinyServer(function(input, output) {
-
-  output$distPlot <- renderPlot({
-
-    # generate bins based on input$bins from ui.R
+  
+  metric <- reactive({
+    input$Metric
+  })
+  
+  newdata <- reactive({
     
-    # Would like to select columns later
-    #x <- agg[, input$Metric, drop = FALSE]
-    x <- agg[,input$Metric]
-    # x = bins
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    d1 <- subset(agg, HCPCS.Description == input$Procedure)
+    return(d1)
+    
+  })
+  
+  histdata <- reactive({
+    
+    d1 <- subset(agg, HCPCS.Description == input$Procedure)
+    d2 <- d1[[input$Metric]]
+    return(d2)
+    
+  })
+  
+  output$distPlot <- renderPlot({
+    
+    x <- histdata()
+    bins <- seq(min(x), max(x), length.out = 30 + 1)
 
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white', main  = paste("Histogram of ", input$Metric," at state level"))
+    hist(x, breaks = bins, col = 'darkgray', border = 'white', main  = paste("Histogram of ", input$Metric, " at state level."), xlab = input$Metric)
+  })
+  
 
+  output$data_table <- renderTable({
+
+    # Return first 20 rows
+    head(newdata(), 20)
   })
 
 })

@@ -1,15 +1,4 @@
-#load("Medicare_Data.Rda")
-
-#Next create a simple aggregated table of Charges and payments by state. 
-#Allow user to choose state and get those metrics.
-
-library(plyr)
-grouping <- group_by(data,Path.Size)
-agg <- aggregate(data, c("Provider.State"), summarize, 
-        Payments = sum(Average.Total.Payments),              
-        CoveredCharges = sum(Average.Covered.Charges),
-        PercentPayments = Payments/CoveredCharges
-)
+# Sandbox for miscellaneous, temporary code
 
 ### for deploying shiny app
 
@@ -34,7 +23,23 @@ slidify("index.Rmd")
 publish(user = "shay-o", repo = "DataProductsProject")
 
 
-#NEXT Look at difference in charges for different procedures DRGs.
-# Get source data and look at disparity in covered charges for the same DRG.
-#https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Inpatient2013.html
 
+#--------- Misc"T
+
+#ByDescription <- group_by(data2,HCPCS.Description)
+
+agg_temp <- summarize(ByDescription,
+                                     AmountAllowed = sum(Average.Medicare.Allowed.Amount),
+                                     AmountSubmitted = sum(Average.Submitted.Charge.Amount),
+                                     AmountPayed = sum(Average.Medicare.Payment.Amount)
+) 
+
+agg_temp <- agg[order(-agg$AmountSubmitted),]
+
+x <- agg_temp[1,2]
+
+tdesc <- "Treatment of broken ankle"
+
+names(agg_temp)
+t <- agg_temp[which(agg_temp$HCPCS.Description=='Treatment of broken ankle'),]
+hist(t$AmountPayed)
